@@ -16,5 +16,11 @@ contract Bank {
         - apply DRY(Don't Repeat Yourself) to withdraw and transfer_to_address functions
         - check against 0x0000000000000000000000000000000000000000 address for transactions
     */
+     address immutable owner;
+
+     constructor(){
+         owner == msg.sender;
+     }
+
 
 }
