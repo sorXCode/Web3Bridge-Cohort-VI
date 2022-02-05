@@ -17,4 +17,5 @@ contract Bank {
         - check against 0x0000000000000000000000000000000000000000 address for transactions
     */
 
+    function deposit() public payable {};
 }
