@@ -33,4 +33,10 @@ contract Bank {
         require(sent, "transacation failed");
         return data;
     }
+
+    function get_bank_balance() external view returns(uint){
+        uint balance;
+        balance = address(this).balance;
+        return balance;
+    }
 }
