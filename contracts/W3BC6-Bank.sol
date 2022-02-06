@@ -16,11 +16,19 @@ contract Bank {
         - apply DRY(Don't Repeat Yourself) to withdraw and transfer_to_address functions
         - check against 0x0000000000000000000000000000000000000000 address for transactions
     */
-     address immutable owner;
-
-     constructor(){
-         owner == msg.sender;
+     address immutable private owner;
+       constructor (address _owner) {
+         owner = _owner;
      }
 
+    mapping(address => uint) User_Balance;
 
+
+    function transfer (uint _amount, address _to) external returns (bytes memory){
+        require (User_Balance[msg.sender] >= _amount, 'Insufficent funds');
+        User_Balance[msg.sender] -= _amount;
+         (bool sent, bytes memory data) = _to.call{value: _amount}('');
+         require(sent, "transacation failed");
+         return data;
+    }
 }
