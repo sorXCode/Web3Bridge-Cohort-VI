@@ -17,10 +17,16 @@ contract Bank {
         - check against 0x0000000000000000000000000000000000000000 address for transactions
     */
      address immutable owner;
+     mapping(address => uint) balance;
 
      constructor(){
-         owner == msg.sender;
+         owner = msg.sender;
      }
+
+    function Deposit() payable public {
+        require(msg.value > 0, "Amount to be deposited is too small");
+        balance[msg.sender] += msg.value;
+    }
 
 
 }
