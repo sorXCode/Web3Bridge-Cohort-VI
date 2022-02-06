@@ -16,11 +16,14 @@ contract Bank {
         - apply DRY(Don't Repeat Yourself) to withdraw and transfer_to_address functions
         - check against 0x0000000000000000000000000000000000000000 address for transactions
     */
-     address immutable owner;
-     mapping(address => uint) balance;
 
-     constructor(){
-         owner = msg.sender;
+    address immutable private owner;
+
+    mapping(address => uint) user_balance;
+    uint private bank_balance; 
+    
+    constructor () {
+       owner = msg.sender;
      }
 
     function Deposit() payable public {
@@ -29,4 +32,12 @@ contract Bank {
     }
 
 
+    function transfer (uint _amount, address _to) external returns (bytes memory){
+        require (user_balance[msg.sender] >= _amount, 'Insufficent funds');
+        user_balance[msg.sender] -= _amount;
+        bank_balance -= _amount;
+        (bool sent, bytes memory data) = _to.call{value: _amount}('');
+        require(sent, "transacation failed");
+        return data;
+    }
 }
