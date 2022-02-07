@@ -27,6 +27,7 @@ contract Bank {
     function deposit() payable public{
         require(msg.value > 0, "Amount to be deposited is too small");
         user_balance[msg.sender] += msg.value;
+        bank_balance += msg.value;
     }
     function transfer (uint _amount, address _to) external returns (bytes memory){
         require (user_balance[msg.sender] >= _amount, 'Insufficent funds');
