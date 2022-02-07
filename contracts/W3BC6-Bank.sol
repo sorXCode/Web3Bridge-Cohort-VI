@@ -29,6 +29,10 @@ contract Bank {
         user_balance[msg.sender] += msg.value;
         bank_balance += msg.value;
     }
+
+    function get_user_balance() public view returns(uint) {
+        return user_balance[msg.sender];
+    }
     function transfer (uint _amount, address _to) external returns (bytes memory){
         require (user_balance[msg.sender] >= _amount, 'Insufficent funds');
         user_balance[msg.sender] -= _amount;
