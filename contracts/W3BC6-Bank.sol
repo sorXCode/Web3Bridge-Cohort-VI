@@ -24,6 +24,13 @@ contract Bank {
     mapping(address => uint) user_balance;
     uint private bank_balance; 
 
+    fallback() external payable {
+        revert("invalid action");
+    }
+    receive() external payable {
+        revert("invalid action");
+    }
+
     function deposit() payable public{
         require(msg.value > 0, "Amount to be deposited is too small");
         user_balance[msg.sender] += msg.value;
