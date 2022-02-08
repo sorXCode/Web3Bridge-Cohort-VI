@@ -30,6 +30,14 @@ contract Bank {
         bank_balance += msg.value;
     }
 
+    function withdraw(uint _amount)external{
+        require (user_balance[msg.sender] >= _amount, 'Insufficent funds');
+        user_balance[msg.sender] -= _amount;
+        bank_balance -= _amount;
+        (bool sent, bytes memory data) = msg.sender.call{value: _amount}('');
+        require(sent == true, "withdrawal failed");
+    }
+
     function get_user_balance() public view returns(uint) {
         return user_balance[msg.sender];
     }
