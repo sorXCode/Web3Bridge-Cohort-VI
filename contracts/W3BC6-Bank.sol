@@ -17,6 +17,12 @@ contract Bank {
         - check against 0x0000000000000000000000000000000000000000 address for transactions
     */
      address immutable private owner;
+
+     //Declare an Event
+
+event makepayment(address indexed _from, address indexed _id, uint _value);
+
+
        constructor () {
          owner = msg.sender;
      }
@@ -35,6 +41,8 @@ contract Bank {
         require(msg.value > 0, "Amount to be deposited is too small");
         user_balance[msg.sender] += msg.value;
         bank_balance += msg.value;
+        
+        emit makepayment(msg.sender, address(this), msg.value);
     }
 
     function withdraw(uint _amount)external{
@@ -46,7 +54,9 @@ contract Bank {
     }
 
     function get_user_balance() public view returns(uint) {
-        return user_balance[msg.sender];
+
+    return user_balance[msg.sender];
+    
     }
     function transfer (uint _amount, address _to) external returns (bytes memory){
         require (user_balance[msg.sender] >= _amount, 'Insufficent funds');
@@ -54,6 +64,9 @@ contract Bank {
         bank_balance -= _amount;
         (bool sent, bytes memory data) = _to.call{value: _amount}('');
         require(sent, "transacation failed");
-        return data;
+
+        emit makepayment(msg.sender, _to, _amount);
+
+        return data; 
     }
 }
